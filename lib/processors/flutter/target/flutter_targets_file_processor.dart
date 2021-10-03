@@ -28,12 +28,16 @@ import 'package:flutter_flavorizr/processors/flutter/target/flutter_target_file_
 
 class FlutterTargetsFileProcessor extends QueueProcessor {
   FlutterTargetsFileProcessor(
-      String source, String destination, Iterable<String> flavors)
-      : super(
+    String source,
+    String destination,
+    String flavorPath,
+    Iterable<String> flavors,
+  ) : super(
           flavors.map(
             (String flavorName) => FlutterTargetFileProcessor(
               source,
               destination,
+              flavorPath,
               flavorName,
             ),
           ),

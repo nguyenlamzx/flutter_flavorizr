@@ -30,20 +30,32 @@ import 'package:flutter_flavorizr/processors/commons/runtime_file_string_process
 
 class FlutterTargetFileProcessor extends QueueProcessor {
   FlutterTargetFileProcessor(
-      String source, String destination, String flavorName)
-      : super([
-          CopyFileProcessor(
-            source,
-            '$destination/main-$flavorName.dart',
-          ),
-          RuntimeFileStringProcessor(
-            '$destination/main-$flavorName.dart',
-            ReplaceStringProcessor(
-              '[[FLAVOR_NAME]]',
-              flavorName.toUpperCase(),
+    String source,
+    String destination,
+    String flavorPath,
+    String flavorName,
+  ) : super(
+          [
+            CopyFileProcessor(
+              source,
+              '$destination/main_$flavorName.dart',
             ),
-          ),
-        ]);
+            RuntimeFileStringProcessor(
+              '$destination/main_$flavorName.dart',
+              ReplaceStringProcessor(
+                '[[FLAVOR_PATH]]',
+                flavorPath,
+              ),
+            ),
+            RuntimeFileStringProcessor(
+              '$destination/main_$flavorName.dart',
+              ReplaceStringProcessor(
+                '[[FLAVOR_NAME]]',
+                flavorName.toUpperCase(),
+              ),
+            ),
+          ],
+        );
 
   @override
   String toString() => 'FlutterTargetFileProcessor';

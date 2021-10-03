@@ -7,9 +7,14 @@ part of 'flavorizr.dart';
 // **************************************************************************
 
 Flavorizr _$FlavorizrFromJson(Map json) {
-  $checkKeys(json, requiredKeys: const ['app', 'flavors']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['app', 'flavors'],
+  );
   return Flavorizr(
     app: App.fromJson(Map<String, dynamic>.from(json['app'] as Map)),
+    assetPath: json['assetPath'] as String? ?? '.tmp',
+    flutterFlavorPath: json['flutterFlavorPath'] as String?,
     flavors: (json['flavors'] as Map).map(
       (k, e) => MapEntry(
           k as String, Flavor.fromJson(Map<String, dynamic>.from(e as Map))),

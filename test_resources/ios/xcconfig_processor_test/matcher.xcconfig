@@ -1,6 +1,6 @@
 #include "Generated.xcconfig"
 
-FLUTTER_TARGET=lib/main-example.dart
+FLUTTER_TARGET=lib/main_example.dart
 
 ASSET_PREFIX=example
 BUNDLE_NAME=Example App

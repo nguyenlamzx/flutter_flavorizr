@@ -88,7 +88,8 @@ class Processor extends AbstractProcessor<void> {
     'ide:config'
   ];
 
-  Processor(this._pubspec) : _availableProcessors = _initAvailableProcessors(_pubspec);
+  Processor(this._pubspec)
+      : _availableProcessors = _initAvailableProcessors(_pubspec);
 
   @override
   void execute() async {
@@ -109,7 +110,9 @@ class Processor extends AbstractProcessor<void> {
     }
   }
 
-  static Map<String, AbstractProcessor<void>> _initAvailableProcessors(Pubspec pubspec) {
+  static Map<String, AbstractProcessor<void>> _initAvailableProcessors(
+    Pubspec pubspec,
+  ) {
     return {
       // Commons
       'assets:download': DownloadFileProcessor(
@@ -135,53 +138,79 @@ class Processor extends AbstractProcessor<void> {
         AndroidBuildGradleProcessor(pubspec.flavorizr),
       ),
       'android:dummyAssets': AndroidDummyAssetsProcessor(
-        K.tempAndroidResPath,
+        K.tempAndroidResPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.androidSrcPath,
         pubspec.flavorizr.flavors,
       ),
 
       //Flutter
       'flutter:flavors': NewFileStringProcessor(
-        K.flutterFlavorPath,
+        pubspec.flavorizr.flutterFlavorPath ?? K.flutterFlavorPath,
         FlutterFlavorsProcessor(pubspec.flavorizr.flavors),
       ),
       'flutter:app': CopyFileProcessor(
-        K.tempFlutterAppPath,
+        K.tempFlutterAppPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.flutterAppPath,
       ),
       'flutter:pages': CopyFolderProcessor(
-        K.tempFlutterPagesPath,
+        K.tempFlutterPagesPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.flutterPagesPath,
       ),
       'flutter:targets': FlutterTargetsFileProcessor(
-        K.tempFlutterMainPath,
+        K.tempFlutterMainPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.flutterPath,
+        (pubspec.flavorizr.flutterFlavorPath ?? K.flutterFlavorPath)
+            .replaceFirst('lib/', ''),
         pubspec.flavorizr.flavors.keys,
       ),
 
       //iOS
       'ios:xcconfig': IOSXCConfigTargetsFileProcessor(
         'ruby',
-        K.tempiOSAddFileScriptPath,
+        K.tempiOSAddFileScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSRunnerProjectPath,
         K.iOSFlutterPath,
         pubspec.flavorizr.flavors,
       ),
       'ios:buildTargets': IOSBuildConfigurationsTargetsProcessor(
         'ruby',
-        K.tempiOSAddBuildConfigurationScriptPath,
+        K.tempiOSAddBuildConfigurationScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSRunnerProjectPath,
         K.iOSFlutterPath,
         pubspec.flavorizr,
       ),
       'ios:schema': IOSSchemasProcessor(
         'ruby',
-        K.tempiOSCreateSchemeScriptPath,
+        K.tempiOSCreateSchemeScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSRunnerProjectPath,
         pubspec.flavorizr.flavors.keys,
       ),
       'ios:dummyAssets': IOSDummyAssetsTargetsProcessor(
-        K.tempiOSAssetsPath,
+        K.tempiOSAssetsPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSAssetsPath,
         pubspec.flavorizr.flavors,
       ),
@@ -191,9 +220,15 @@ class Processor extends AbstractProcessor<void> {
       ),
       'ios:launchScreen': IOSTargetsLaunchScreenFileProcessor(
         'ruby',
-        K.tempiOSAddFileScriptPath,
+        K.tempiOSAddFileScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSRunnerProjectPath,
-        K.tempiOSLaunchScreenPath,
+        K.tempiOSLaunchScreenPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         K.iOSRunnerPath,
         pubspec.flavorizr.flavors.keys,
       ),
@@ -203,10 +238,19 @@ class Processor extends AbstractProcessor<void> {
         process: 'ruby',
         androidDestination: K.androidSrcPath,
         iosDestination: K.iOSRunnerPath,
-        addFileScript: K.tempiOSAddFileScriptPath,
+        addFileScript: K.tempiOSAddFileScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         runnerProject: K.iOSRunnerProjectPath,
-        firebaseScript: K.tempiOSAddFirebaseBuildPhaseScriptPath,
-        generatedFirebaseScriptPath: K.tempiOSFirebaseScriptPath,
+        firebaseScript: K.tempiOSAddFirebaseBuildPhaseScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
+        generatedFirebaseScriptPath: K.tempiOSFirebaseScriptPath.replaceFirst(
+          K.tempPath,
+          pubspec.flavorizr.assetPath,
+        ),
         flavors: pubspec.flavorizr.flavors,
       ),
 

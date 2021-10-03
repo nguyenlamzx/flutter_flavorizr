@@ -6,3 +6,4 @@
 .pub/
 
 build/
+example/.flavorizr/assets/ios/firebaseScript.sh

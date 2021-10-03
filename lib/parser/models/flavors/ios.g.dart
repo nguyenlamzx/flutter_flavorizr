@@ -7,9 +7,11 @@ part of 'ios.dart';
 // **************************************************************************
 
 IOS _$IOSFromJson(Map json) {
-  $checkKeys(json,
-      requiredKeys: const ['bundleId'],
-      disallowNullValues: const ['firebase', 'bundleId']);
+  $checkKeys(
+    json,
+    requiredKeys: const ['bundleId'],
+    disallowNullValues: const ['firebase', 'bundleId'],
+  );
   return IOS(
     bundleId: json['bundleId'] as String,
     buildSettings: (json['buildSettings'] as Map?)?.map(

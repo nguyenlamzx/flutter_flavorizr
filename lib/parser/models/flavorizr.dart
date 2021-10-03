@@ -36,6 +36,15 @@ class Flavorizr {
   @JsonKey(required: true)
   final App app;
 
+  @JsonKey(
+    required: false,
+    defaultValue: '.tmp',
+  )
+  final String assetPath;
+
+  @JsonKey(required: false)
+  final String? flutterFlavorPath;
+
   @JsonKey(required: true)
   final Map<String, Flavor> flavors;
 
@@ -52,6 +61,8 @@ class Flavorizr {
 
   Flavorizr({
     required this.app,
+    required this.assetPath,
+    this.flutterFlavorPath,
     required this.flavors,
     this.instructions,
     required this.assetsUrl,

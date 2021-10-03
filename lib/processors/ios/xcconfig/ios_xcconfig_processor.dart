@@ -46,12 +46,14 @@ class IOSXCConfigProcessor extends StringProcessor {
   }
 
   void _appendIncludes(StringBuffer buffer) {
+    buffer.writeln(
+        '#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.$_flavorName.xcconfig"');
     buffer.writeln('#include "Generated.xcconfig"');
   }
 
   void _appendBody(StringBuffer buffer) {
     buffer.writeln();
-    buffer.writeln('FLUTTER_TARGET=lib/main-$_flavorName.dart');
+    buffer.writeln('FLUTTER_TARGET=lib/main_$_flavorName.dart');
     buffer.writeln();
     buffer.writeln('ASSET_PREFIX=$_flavorName');
     buffer.writeln('BUNDLE_NAME=$_appName');
